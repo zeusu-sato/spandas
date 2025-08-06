@@ -1,4 +1,3 @@
-
 ## 🇯🇵 Spandas - Spark上でpandasのように使える拡張DataFrame
 
 **Spandas** は、pandas-on-Spark（pyspark.pandas）をベースに、pandasのような使いやすさと、swifterによる並列処理、matplotlib対応の可視化などを統合し、
@@ -80,3 +79,8 @@ sdf.plot()
 - `spandas.py` - Main class that binds all enhanced functionality
 
 ---
+
+## 📄 License / ライセンス
+
+- English: This project is licensed under the **MIT License** – see the [LICENSE](./LICENSE) file for details.
+- 日本語: 本プロジェクトは **MITライセンス** のもとで公開されています。詳細は [LICENSE](./LICENSE) ファイルをご確認ください。
