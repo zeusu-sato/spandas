@@ -1,8 +1,8 @@
 # spandas/enhanced/__init__.py
 
 from . import (
-    apply,
-    join,
+    apply_ext,
+    join_ext,
     selection,
     aggregation,
     missing,
@@ -12,8 +12,8 @@ from . import (
 )
 
 __all__ = [
-    "apply",
-    "join",
+    "apply_ext",
+    "join_ext",
     "selection",
     "aggregation",
     "missing",
