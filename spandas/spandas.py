@@ -56,7 +56,7 @@ class Spandas(ps.DataFrame):
     where                  = apply_ext.where
     mask                   = apply_ext.mask
     combine                = apply_ext.combine
-    combine_first          = join_ext.combine_first  # logically related to join
+    combine_first          = apply_ext.combine_first
 
     # --------- Enhanced Selection ---------
     loc                    = selection.loc
@@ -67,7 +67,9 @@ class Spandas(ps.DataFrame):
     head                   = selection.head
     tail                   = selection.tail
     sample                 = selection.sample
-    isin                   = selection.isin
+    isin                   = selection.isin  # from filter_mask
+    where                  = apply_ext.where  # logically mask/where
+    mask                   = apply_ext.mask
 
     # --------- Enhanced Reshaping ---------
     pivot                  = reshape.pivot
