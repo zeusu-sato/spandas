@@ -1,11 +1,12 @@
 # spandas/enhanced/mathstats/__init__.py
 
-from . import correlation, interpolation, timeseries
-from .correlation import *
-from .interpolation import *
-from .timeseries import *
+__all__ = [
+    "corr", "cov",
+    "interpolate",
+    "resample", "asfreq", "rolling", "expanding"
+]
 
-__all__ = []
-__all__ += correlation.__all__
-__all__ += interpolation.__all__
-__all__ += timeseries.__all__
+from .correlation import corr, cov
+from .interpolation import interpolate
+from .timeseries import resample, asfreq, rolling, expanding
+

@@ -4,12 +4,12 @@
 Initialization for reshaping-related enhanced methods.
 """
 
-from . import pivoting, melting, reshaping
-from .pivoting import *
-from .melting import *
-from .reshaping import *
+__all__ = [
+    "pivot", "pivot_table", "stack", "unstack",
+    "melt", "wide_to_long",
+    "explode", "get_dummies", "transpose", "T"
+]
 
-__all__ = []
-__all__ += pivoting.__all__
-__all__ += melting.__all__
-__all__ += reshaping.__all__
+from .pivoting import pivot, pivot_table, stack, unstack
+from .melting import melt, wide_to_long
+from .reshaping import explode, get_dummies, transpose, T
