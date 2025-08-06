@@ -1,3 +1,6 @@
+# spandas/enhanced/aggregation/__init__.py
+
+from . import aggregation
 from .aggregation import *
 
 __all__ = []

@@ -4,6 +4,7 @@
 Initialization for reshaping-related enhanced methods.
 """
 
+from . import pivoting, melting, reshaping
 from .pivoting import *
 from .melting import *
 from .reshaping import *

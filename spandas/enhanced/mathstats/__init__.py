@@ -1,3 +1,6 @@
+# spandas/enhanced/mathstats/__init__.py
+
+from . import correlation, interpolation, timeseries
 from .correlation import *
 from .interpolation import *
 from .timeseries import *

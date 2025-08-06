@@ -1,5 +1,6 @@
 # spandas/enhanced/selection/__init__.py
 
+from . import filter_mask, indexing, slicing
 from .filter_mask import *
 from .indexing import *
 from .slicing import *
