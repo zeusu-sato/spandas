@@ -1,18 +1,17 @@
-# setup.py
-
 from setuptools import setup, find_packages
 
 setup(
-    name="spandas",
-    version="0.1.0",
-    description="Enhanced pandas-on-Spark DataFrame with pandas-like API and swifter/matplotlib support",
-    author="Zeusu Sato",
-    url="https://github.com/zeusu-sato/spandas",
-    packages=find_packages(),
+    name='spandas',
+    version='0.1.0',
+    description='Enhanced pandas-like interface for PySpark',
+    author='Zeusu Sato',
+    author_email='zeusu.sato@dorodango.biz',
+    url='https://github.com/zeusu-sato/spandas',
+    packages=find_packages(include=["spandas", "spandas.*"]),
     install_requires=[
-        "pyspark>=3.2.0",
-        "swifter",
-        "matplotlib"
+        'pyspark>=3.2.0',
+        'swifter',
+        'matplotlib'
     ],
-    python_requires=">=3.7",
+    python_requires='>=3.7',
 )
