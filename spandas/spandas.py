@@ -79,7 +79,6 @@ class Spandas(ps.DataFrame):
     explode                = reshape.explode
     get_dummies            = reshape.get_dummies
     transpose              = reshape.transpose
-    T                      = reshape.T
 
     # --------- Enhanced Missing ---------
     dropna                 = missing.dropna
@@ -107,3 +106,12 @@ class Spandas(ps.DataFrame):
     plot                   = plot.plot
     hist                   = plot.hist
     boxplot                = plot.boxplot
+
+    @property
+    def T(self):
+        """
+        Shortcut for transpose (i.e., df.T is equivalent to df.transpose()).
+        Uses pandas for accurate transpose.
+        """
+        from spandas.enhanced.reshape.reshaping import transpose
+        return transpose(self)
