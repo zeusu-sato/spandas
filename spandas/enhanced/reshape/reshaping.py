@@ -7,7 +7,7 @@ These methods offer restructuring capabilities similar to pandas,
 with optional pandas interoperability via to_pandas.
 """
 
-__all__ = ["explode", "get_dummies", "transpose"]
+__all__ = ["explode", "get_dummies", "transpose", "T"]
 
 from typing import Union, List, Optional
 import pandas as pd
@@ -102,3 +102,14 @@ def transpose(
             transposed[col] = [row[i] for row in rows]
         pdf = pd.DataFrame(transposed).transpose()
         return ps.from_pandas(pdf)
+
+
+@property
+def T(self: ps.DataFrame) -> Union[pd.DataFrame, ps.DataFrame]:
+    """
+    Shortcut for transpose (i.e., self.T is equivalent to self.transpose()).
+
+    Returns:
+        Union[pd.DataFrame, ps.DataFrame]: Transposed DataFrame.
+    """
+    return transpose(self)
