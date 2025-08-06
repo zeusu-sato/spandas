@@ -1,21 +1,21 @@
 # spandas/enhanced/__init__.py
 
-from . import apply
+from . import apply_ext
 from . import aggregation
-from . import join
+from . import join_ext
 from . import reshape
 from . import selection
 from . import missing
-from . import plot
+from . import plot_ext
 from . import mathstats  # ←ここはモジュールだからOK
 
 __all__ = [
-    "apply",
+    "apply_ext",
     "aggregation",
-    "join",
+    "join_ext",
     "reshape",
     "selection",
     "missing",
-    "plot",
+    "plot_ext",
     "mathstats"
 ]

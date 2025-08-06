@@ -12,14 +12,14 @@ use of .to_pandas() (only for plotting and optional in complex methods).
 import pyspark.pandas as ps
 from spandas.original import backup as original
 from spandas.enhanced import (
-    apply,
+    apply_ext,
+    join_ext,
     selection,
     aggregation,
     missing,
     mathstats,
     reshape,
-    join,
-    plot,
+    plot_ext,
 )
 
 
@@ -49,14 +49,14 @@ class Spandas(ps.DataFrame):
     T_original             = original.T_original
 
     # --------- Enhanced Apply ---------
-    apply                  = apply.apply
-    applymap               = apply.applymap
-    transform              = apply.transform
-    pipe                   = apply.pipe
-    where                  = apply.where
-    mask                   = apply.mask
-    combine                = apply.combine
-    combine_first          = join.combine_first  # logically related to join
+    apply                  = apply_ext.apply
+    applymap               = apply_ext.applymap
+    transform              = apply_ext.transform
+    pipe                   = apply_ext.pipe
+    where                  = apply_ext.where
+    mask                   = apply_ext.mask
+    combine                = apply_ext.combine
+    combine_first          = join_ext.combine_first  # logically related to join
 
     # --------- Enhanced Selection ---------
     loc                    = selection.loc
@@ -99,13 +99,13 @@ class Spandas(ps.DataFrame):
     describe               = aggregation.describe
 
     # --------- Enhanced Join ---------
-    join                   = join.join
-    merge                  = join.merge
+    join                   = join_ext.join
+    merge                  = join_ext.merge
 
     # --------- Enhanced Plot ---------
-    plot                   = plot.plot
-    hist                   = plot.hist
-    boxplot                = plot.boxplot
+    plot                   = plot_ext.plot
+    hist                   = plot_ext.hist
+    boxplot                = plot_ext.boxplot
 
     @property
     def T(self):
