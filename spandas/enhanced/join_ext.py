@@ -46,14 +46,18 @@ def merge(
         )
         return ps.from_pandas(result)
     else:
-        return self.merge(
+        # Use the original pandas-on-Spark implementation to avoid
+        # recursively calling this wrapper again.  Calling ``self.merge`` here
+        # would invoke this function and lead to infinite recursion.
+        return ps.DataFrame.merge(
+            self,
             right,
             how=how,
             on=on,
             left_on=left_on,
             right_on=right_on,
             *args,
-            **kwargs
+            **kwargs,
         )
 
 
@@ -84,7 +88,9 @@ def join(
         )
         return ps.from_pandas(result)
     else:
-        return self.join(other, on=on, how=how, *args, **kwargs)
+        # Delegate to the pandas-on-Spark ``DataFrame.join`` to prevent
+        # infinite recursion.
+        return ps.DataFrame.join(self, other, on=on, how=how, *args, **kwargs)
 
 
 def concat(
@@ -134,4 +140,6 @@ def combine_first(
         result = self.to_pandas().combine_first(other.to_pandas())
         return ps.from_pandas(result)
     else:
-        return self.combine_first(other)
+        # Call the base implementation directly; ``self.combine_first`` would
+        # invoke this wrapper again and recurse forever.
+        return ps.DataFrame.combine_first(self, other)
