@@ -10,7 +10,7 @@ them to pandas and using matplotlib. Spark does not natively support plotting hi
 __all__ = ["hist"]
 
 from typing import Any
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 
 def hist(self: ps.DataFrame, *args, **kwargs) -> Any:

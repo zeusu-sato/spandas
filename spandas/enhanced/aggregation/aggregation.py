@@ -8,7 +8,7 @@ __all__ = ["agg", "groupby", "describe"]
 
 from typing import Union, Callable, List, Dict, Optional
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 
 def agg(

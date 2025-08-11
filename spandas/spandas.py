@@ -20,7 +20,7 @@ from __future__ import annotations
 from typing import Any, Callable
 
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 from spandas.original import backup as original
 from spandas.enhanced import (

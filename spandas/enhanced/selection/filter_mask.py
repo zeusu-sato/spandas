@@ -5,7 +5,7 @@ spandas.enhanced.selection.filter_mask: Boolean filtering utilities (isin, where
 """
 
 from typing import Any, Union, List, Callable
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 
 __all__ = ["isin", "where", "mask"]

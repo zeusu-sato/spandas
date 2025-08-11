@@ -7,7 +7,7 @@ or best-effort fallbacks.
 """
 
 from typing import Any, Optional, Union, List
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 
 __all__ = ["pivot", "pivot_table", "stack", "unstack"]

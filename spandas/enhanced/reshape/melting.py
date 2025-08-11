@@ -11,7 +11,7 @@ __all__ = ["melt", "wide_to_long"]
 
 from typing import Optional, List
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 
 def melt(

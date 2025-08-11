@@ -7,7 +7,7 @@ Supports both best-effort Spark-based logic and fallback to to_pandas for full c
 
 from typing import Union, Any, Tuple, Optional
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pyspark.sql.functions as F
 
 __all__ = ["loc", "iloc", "at", "iat", "xs"]

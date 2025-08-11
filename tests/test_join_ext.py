@@ -1,7 +1,7 @@
 import os
 import sys
 import pandas.testing as tm
-import pyspark.pandas as ps
+from pyspark import pandas as ps
 from pyspark.sql import SparkSession
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))

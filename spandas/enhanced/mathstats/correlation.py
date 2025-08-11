@@ -10,7 +10,7 @@ Provides:
 """
 
 from typing import Optional
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 
 def corr(

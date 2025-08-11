@@ -10,7 +10,7 @@ by converting them to pandas and using matplotlib. Spark native plotting is unsu
 __all__ = ["plot"]
 
 from typing import Any
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 
 def plot(self: ps.DataFrame, *args, **kwargs) -> Any:
