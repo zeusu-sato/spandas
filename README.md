@@ -13,8 +13,19 @@ Spark上でのDataFrame操作を強化するライブラリです。
 
 ### インストール
 
-```bash
-pip install git+https://github.com/zeusu-sato/spandas.git
+Databricks での推奨手順:
+
+```python
+%pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
+  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+dbutils.library.restartPython()
+```
+
+トラブル時の最小インストール:
+
+```python
+%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+dbutils.library.restartPython()
 ```
 
 > **注意:** 本ライブラリは PySpark 3.5 系および pandas 1.5 系に対応しています。
@@ -56,8 +67,19 @@ including easy-to-use methods, parallelism with swifter, and plotting support vi
 
 ### Installation
 
-```bash
-pip install git+https://github.com/zeusu-sato/spandas.git
+Recommended installation on Databricks:
+
+```python
+%pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
+  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+dbutils.library.restartPython()
+```
+
+Minimal install (rely on DBR-bundled deps):
+
+```python
+%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+dbutils.library.restartPython()
 ```
 
 > **Note:** The package targets PySpark 3.5.x and pandas 1.5.x (Databricks Runtime compatible).

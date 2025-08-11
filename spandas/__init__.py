@@ -9,11 +9,19 @@ the enhanced Spandas class with extended pandas-like functionality on top of Spa
 
 try:
     import pyspark  # noqa: F401
-except ImportError as exc:  # pragma: no cover - simple import guard
+except Exception as e:  # pragma: no cover - simple import guard
     raise RuntimeError(
-        "pyspark is required but not installed. Please install pyspark to use spandas."
-    ) from exc
+        "pyspark が見つかりません。Databricks では同梱されています。"
+        "ローカルで使う場合は `pip install pyspark` か `pip install spandas[local]` を実行してください。"
+    ) from e
+
+from importlib.metadata import PackageNotFoundError, version
+
+try:  # pragma: no cover - version retrieval
+    __version__ = version("spandas")
+except PackageNotFoundError:  # pragma: no cover - fallback when not installed
+    __version__ = "0.0.0"
 
 from .spandas import Spandas, SpandasSeries
 
-__all__ = ["Spandas", "SpandasSeries"]
+__all__ = ["Spandas", "SpandasSeries", "__version__"]
