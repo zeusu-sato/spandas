@@ -17,7 +17,7 @@ Spark上でのDataFrame操作を強化するライブラリです。
 pip install git+https://github.com/zeusu-sato/spandas.git
 ```
 
-> **注意:** 本ライブラリは PySpark 4 系および pandas 2 系以降に対応しています。
+> **注意:** 本ライブラリは PySpark 3.5 系および pandas 1.5 系に対応しています。
 
 ### 使用例
 
@@ -60,7 +60,7 @@ including easy-to-use methods, parallelism with swifter, and plotting support vi
 pip install git+https://github.com/zeusu-sato/spandas.git
 ```
 
-> **Note:** The package targets PySpark 4.x and pandas 2.x or newer.
+> **Note:** The package targets PySpark 3.5.x and pandas 1.5.x (Databricks Runtime compatible).
 
 ### Example
 
