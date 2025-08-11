@@ -9,12 +9,12 @@ setup(
     url='https://github.com/zeusu-sato/spandas',
     packages=find_packages(include=["spandas", "spandas.*"]),
     install_requires=[
-        'pyspark>=4.0.0',
-        'pandas>=2.0',
-        'numpy>=1.22',
+        'pyspark>=3.5.0,<4.0.0',
+        'pandas>=1.5,<2.0',
+        'numpy>=1.22,<2.0',
         'swifter',
         'matplotlib',
-        'pyarrow>=11.0.0',
+        'pyarrow>=8.0.0,<13.0',
     ],
     python_requires='>=3.7',
 )
