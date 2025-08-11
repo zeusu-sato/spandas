@@ -11,7 +11,7 @@ __all__ = ["merge", "join", "concat", "combine_first"]
 
 from typing import Union, List, Optional
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 
 def merge(

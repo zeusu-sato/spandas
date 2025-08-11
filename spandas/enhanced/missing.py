@@ -6,7 +6,7 @@ spandas.enhanced.missing: Enhanced missing data handling methods.
 
 from typing import Any, Union
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 __all__ = [
     "isna",

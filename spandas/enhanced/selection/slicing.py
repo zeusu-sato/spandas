@@ -6,7 +6,7 @@ with optional pandas fallback for full fidelity.
 """
 
 from typing import Union, Optional
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 import pyspark.sql.functions as F
 

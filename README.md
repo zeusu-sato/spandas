@@ -1,6 +1,6 @@
 ## 🇯🇵 Spandas - Spark上でpandasのように使える拡張DataFrame
 
-**Spandas** は、pandas-on-Spark（pyspark.pandas）をベースに、pandasのような使いやすさと、swifterによる並列処理、matplotlib対応の可視化などを統合し、
+**Spandas** は、PySpark の pandas API (`from pyspark import pandas as ps`) をベースに、pandasのような使いやすさと、swifterによる並列処理、matplotlib対応の可視化などを統合し、
 Spark上でのDataFrame操作を強化するライブラリです。
 
 ### 特徴
@@ -17,14 +17,13 @@ Spark上でのDataFrame操作を強化するライブラリです。
 pip install git+https://github.com/zeusu-sato/spandas.git
 ```
 
-> **注意:** 本ライブラリは PySpark 3 系および pandas 1 系を前提としており、
-> PySpark 4.x や pandas 2.x には未対応です。
+> **注意:** 本ライブラリは PySpark 4 系および pandas 2 系以降に対応しています。
 
 ### 使用例
 
 ```python
 from spandas import Spandas
-import pyspark.pandas as ps
+from pyspark import pandas as ps
 
 psdf = ps.read_csv("sample.csv")
 sdf = Spandas(psdf)
@@ -44,7 +43,7 @@ sdf.plot()
 
 ## 🇺🇸 Spandas - Enhanced DataFrame API on Spark with Pandas-like Syntax
 
-**Spandas** extends pandas-on-Spark (pyspark.pandas) to provide a more pandas-like experience,
+**Spandas** extends PySpark's pandas API (`from pyspark import pandas as ps`) to provide a more pandas-like experience,
 including easy-to-use methods, parallelism with swifter, and plotting support via matplotlib.
 
 ### Features
@@ -61,14 +60,13 @@ including easy-to-use methods, parallelism with swifter, and plotting support vi
 pip install git+https://github.com/zeusu-sato/spandas.git
 ```
 
-> **Note:** The package currently targets PySpark 3.x and pandas 1.x.
-> PySpark 4.x and pandas 2.x are not yet supported.
+> **Note:** The package targets PySpark 4.x and pandas 2.x or newer.
 
 ### Example
 
 ```python
 from spandas import Spandas
-import pyspark.pandas as ps
+from pyspark import pandas as ps
 
 psdf = ps.read_csv("sample.csv")
 sdf = Spandas(psdf)

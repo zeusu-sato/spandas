@@ -5,7 +5,7 @@ spandas.enhanced.mathstats.timeseries: Implements time series operations like re
 """
 
 from typing import Union, Optional, Callable
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 
 

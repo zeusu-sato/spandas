@@ -7,7 +7,7 @@ These methods preserve the unmodified behavior of the parent class
 for fallback or comparison purposes.
 """
 
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 from typing import Any, Callable, List, Union
 

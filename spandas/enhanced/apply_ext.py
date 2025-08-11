@@ -5,7 +5,7 @@ spandas.enhanced.apply: Enhanced versions of apply, applymap, and map using swif
 """
 
 import pandas as pd
-import pyspark.pandas as ps
+from spandas.compat import ps
 from typing import Callable, Any, Union, Optional
 
 __all__ = [

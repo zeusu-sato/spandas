@@ -8,7 +8,7 @@ Provides:
 """
 
 from typing import Literal, Optional
-import pyspark.pandas as ps
+from spandas.compat import ps
 import pandas as pd
 
 

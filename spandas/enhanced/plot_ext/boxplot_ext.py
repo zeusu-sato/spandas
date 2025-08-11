@@ -10,7 +10,7 @@ them to pandas and using matplotlib. Spark does not natively support box plots.
 __all__ = ["boxplot"]
 
 from typing import Any
-import pyspark.pandas as ps
+from spandas.compat import ps
 
 
 def boxplot(self: ps.DataFrame, *args, **kwargs) -> Any:
