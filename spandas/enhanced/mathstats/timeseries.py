@@ -72,16 +72,18 @@ def rolling(
     self: ps.DataFrame,
     window: int,
     min_periods: Optional[int] = None,
+    how: Union[str, Callable] = 'mean',
     to_pandas: bool = False,
     *args,
     **kwargs
 ) -> ps.DataFrame:
     """
-    Provide rolling window calculations.
+    Provide rolling window calculations with an aggregation method.
 
     Args:
         window (int): Size of the moving window.
-        min_periods (int): Minimum observations in window required.
+        min_periods (Optional[int]): Minimum observations in window required.
+        how (Union[str, Callable]): Aggregation to apply, e.g., 'mean', 'sum', or callable. Defaults to 'mean'.
         to_pandas (bool): Use pandas for compatibility.
 
     Returns:
@@ -89,7 +91,7 @@ def rolling(
     """
     if to_pandas:
         pdf = self.to_pandas()
-        result = pdf.rolling(window=window, min_periods=min_periods, *args, **kwargs).mean()
+        result = pdf.rolling(window=window, min_periods=min_periods, *args, **kwargs).agg(how)
         return ps.from_pandas(result)
     else:
         raise NotImplementedError("rolling requires to_pandas=True for now.")
