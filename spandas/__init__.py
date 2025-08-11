@@ -7,6 +7,6 @@ This module initializes the spandas package, setting up all core imports and exp
 the enhanced Spandas class with extended pandas-like functionality on top of Spark.
 """
 
-from .spandas import Spandas
+from .spandas import Spandas, SpandasSeries
 
-__all__ = ["Spandas"]
+__all__ = ["Spandas", "SpandasSeries"]
