@@ -78,6 +78,15 @@ sdf.plot()
 - `enhanced/` - Feature-specific enhancements (apply, selection, mathstats, etc.)
 - `spandas.py` - Main class that binds all enhanced functionality
 
+### テストの実行 / Running Tests
+
+プロジェクトのルートディレクトリで以下を実行することで、ユニットテストを実行できます。
+
+```bash
+pip install -r requirements.txt
+pytest
+```
+
 ---
 
 ## 📄 License / ライセンス
