@@ -1,15 +1,27 @@
 # spandas/spandas.py
 
-"""
-spandas.spandas: Defines the core Spandas class that extends pandas-on-Spark
-with enhanced functionality and pandas-like interface.
+"""Core Spandas classes.
 
-This class supports enhanced apply, selection, aggregation, reshaping,
-missing value handling, joins, math/stats, and plotting, with minimal
-use of .to_pandas() (only for plotting and optional in complex methods).
+This module provides thin wrappers around :mod:`pyspark.pandas` objects so that
+users who are familiar with the pandas API can interact with Spark DataFrames
+and Series using *exactly* the same syntax.  Methods that exist in
+``pyspark.pandas`` are delegated there directly; for any attributes that are
+missing, we fall back to converting the object to pandas and calling the pandas
+implementation.  The result is then converted back into a Spandas object when
+possible.
+
+Only a light layer of glue code is implemented here – the heavy lifting is
+still handled by pandas-on-Spark.  This keeps the behaviour close to pandas
+while avoiding the need to manually re‑implement every method.
 """
 
+from __future__ import annotations
+
+from typing import Any, Callable
+
+import pandas as pd
 import pyspark.pandas as ps
+
 from spandas.original import backup as original
 from spandas.enhanced import (
     apply_ext,
@@ -117,3 +129,80 @@ class Spandas(ps.DataFrame):
         """
         from spandas.enhanced.reshape.reshaping import transpose
         return transpose(self)
+
+    # ------------------------------------------------------------------
+    # Helpers to keep pandas-like API
+    # ------------------------------------------------------------------
+    def __getattr__(self, item: str) -> Any:  # pragma: no cover - thin wrapper
+        """Fallback attribute access.
+
+        If ``pyspark.pandas`` implements the requested attribute we delegate to
+        it.  Otherwise the DataFrame is converted to pandas and the pandas
+        implementation is used.  Results that are ``DataFrame``/``Series`` are
+        converted back into Spandas objects so that chaining continues to work.
+        """
+
+        if hasattr(ps.DataFrame, item):
+            attr = getattr(ps.DataFrame, item)
+
+            def wrapper(*args, **kwargs):
+                result = attr(self, *args, **kwargs)
+                return _as_spandas(result)
+
+            return wrapper
+
+        pd_df = self.to_pandas()
+        pd_attr = getattr(pd_df, item)
+        if callable(pd_attr):
+
+            def pd_wrapper(*args, **kwargs):
+                result = pd_attr(*args, **kwargs)
+                return _as_spandas(result)
+
+            return pd_wrapper
+
+        return pd_attr
+
+    def __getitem__(self, key: Any) -> Any:  # pragma: no cover - thin wrapper
+        result = super().__getitem__(key)
+        return _as_spandas(result)
+
+
+class SpandasSeries(ps.Series):
+    """Series counterpart of :class:`Spandas` with pandas-like fallbacks."""
+
+    def __getattr__(self, item: str) -> Any:  # pragma: no cover - thin wrapper
+        if hasattr(ps.Series, item):
+            attr = getattr(ps.Series, item)
+
+            def wrapper(*args, **kwargs):
+                result = attr(self, *args, **kwargs)
+                return _as_spandas(result)
+
+            return wrapper
+
+        pd_series = self.to_pandas()
+        pd_attr = getattr(pd_series, item)
+        if callable(pd_attr):
+
+            def pd_wrapper(*args, **kwargs):
+                result = pd_attr(*args, **kwargs)
+                return _as_spandas(result)
+
+            return pd_wrapper
+
+        return pd_attr
+
+    def __getitem__(self, key: Any) -> Any:  # pragma: no cover - thin wrapper
+        result = super().__getitem__(key)
+        return _as_spandas(result)
+
+
+def _as_spandas(obj: Any) -> Any:
+    """Convert pandas-on-Spark objects to Spandas wrappers."""
+
+    if isinstance(obj, ps.DataFrame) and not isinstance(obj, Spandas):
+        obj.__class__ = Spandas
+    elif isinstance(obj, ps.Series) and not isinstance(obj, SpandasSeries):
+        obj.__class__ = SpandasSeries
+    return obj
