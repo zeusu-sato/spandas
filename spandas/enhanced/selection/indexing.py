@@ -61,7 +61,13 @@ def iloc(
         return pdf.iloc[row_idx, col_idx] if col_idx is not None else pdf.iloc[row_idx]
 
     cols = list(self.columns)
-    selected_cols = cols[col_idx] if col_idx is not None else cols
+    if col_idx is not None:
+        if isinstance(col_idx, int):
+            selected_cols = [cols[col_idx]]
+        else:
+            selected_cols = cols[col_idx]
+    else:
+        selected_cols = cols
     indexed = self.withColumn("__row_id", F.monotonically_increasing_id())
     if isinstance(row_idx, int):
         filtered = indexed.filter(F.col("__row_id") == row_idx)
