@@ -1,19 +1,13 @@
-# spandas/__init__.py
+"""spandas package.
 
-"""
-Spandas Package Initialization
-
-This module initializes the spandas package, setting up all core imports and exposing
-the enhanced Spandas class with extended pandas-like functionality on top of Spark.
+Provides minimal helpers to bridge pandas and Spark on Databricks.
 """
 
-try:
-    import pyspark  # noqa: F401
-except Exception as e:  # pragma: no cover - simple import guard
-    raise RuntimeError(
-        "pyspark が見つかりません。Databricks では同梱されています。"
-        "ローカルで使う場合は `pip install pyspark` か `pip install spandas[local]` を実行してください。"
-    ) from e
+# Optional tqdm integration for pandas progress bars
+try:  # pragma: no cover - optional dependency
+    from . import _tqdm_patch  # noqa: F401
+except Exception:  # pragma: no cover - silently ignore
+    pass
 
 from importlib.metadata import PackageNotFoundError, version
 
@@ -22,6 +16,6 @@ try:  # pragma: no cover - version retrieval
 except PackageNotFoundError:  # pragma: no cover - fallback when not installed
     __version__ = "0.0.0"
 
-from .spandas import Spandas, SpandasSeries
+from .interop import to_pandas, to_spark
 
-__all__ = ["Spandas", "SpandasSeries", "__version__"]
+__all__ = ["to_pandas", "to_spark", "__version__"]

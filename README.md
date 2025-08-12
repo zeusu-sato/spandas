@@ -1,121 +1,32 @@
-## 🇯🇵 Spandas - Spark上でpandasのように使える拡張DataFrame
+## Spandas for Databricks
 
-**Spandas** は、PySpark の pandas API (`from pyspark import pandas as ps`) をベースに、pandasのような使いやすさと、swifterによる並列処理、matplotlib対応の可視化などを統合し、
-Spark上でのDataFrame操作を強化するライブラリです。
+Lightweight helpers to use pandas on Databricks without breaking the default
+runtime. The package offers:
 
-### 特徴
+- Optional progress bars via `tqdm` using the familiar
+  `df.progress_apply(...)` syntax.
+- Simple conversion helpers between `pyspark.sql.DataFrame` and
+  `pandas.DataFrame` via `spandas.to_pandas` and `spandas.to_spark`.
 
-- pandasのような `.apply()`, `.agg()`, `.groupby()` などの操作をSpark上で再現
-- `swifter` による自動並列化
-- `.plot()`, `.hist()`, `.boxplot()` による可視化（pandas経由）
-- `to_pandas=False` によるSparkネイティブなベストエフォート処理
-- `.loc`, `.iloc`, `.T`, `.pivot`, `.melt` など、使い慣れたAPIをサポート
-
-### インストール
-
-Databricks での推奨手順:
+### Installation on Databricks
 
 ```python
 %pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
   "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
+%pip install -U "spandas[perf] @ git+https://github.com/zeusu-sato/spandas.git"  # optional tqdm
 ```
 
-トラブル時の最小インストール:
+### Usage
 
 ```python
-%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
+import pandas as pd
+import spandas
+
+# Optional tqdm progress bars
+pd.Series(range(3)).progress_apply(lambda x: x)
+
+# Spark ↔ pandas conversion
+# sdf: pyspark.sql.DataFrame, pdf: pandas.DataFrame
+# pdf = spandas.to_pandas(sdf)
+# sdf = spandas.to_spark(pdf)
 ```
-
-> **注意:** 本ライブラリは PySpark 3.5 系および pandas 1.5 系に対応しています。
-
-### 使用例
-
-```python
-from spandas import Spandas
-from pyspark import pandas as ps
-
-psdf = ps.read_csv("sample.csv")
-sdf = Spandas(psdf)
-
-sdf = sdf.dropna()
-sdf["new_col"] = sdf["val"].apply(lambda x: x**2)
-sdf.plot()
-```
-
-### 構成ディレクトリ
-
-- `original/` ... 元のpandas-on-Spark互換関数の退避
-- `enhanced/` ... 機能ごとの強化関数群（apply, selection, mathstats など）
-- `spandas.py` ... Spandasクラス本体（拡張機能を統合）
-
----
-
-## 🇺🇸 Spandas - Enhanced DataFrame API on Spark with Pandas-like Syntax
-
-**Spandas** extends PySpark's pandas API (`from pyspark import pandas as ps`) to provide a more pandas-like experience,
-including easy-to-use methods, parallelism with swifter, and plotting support via matplotlib.
-
-### Features
-
-- Familiar pandas-style API on Spark: `.apply()`, `.agg()`, `.groupby()`, etc.
-- Automatic parallelization using `swifter`
-- Plotting via `.plot()`, `.hist()`, `.boxplot()` (backed by pandas/matplotlib)
-- Best-effort native Spark execution with `to_pandas=False`
-- Support for `.loc`, `.iloc`, `.T`, `.pivot`, `.melt`, and more
-
-### Installation
-
-Recommended installation on Databricks:
-
-```python
-%pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
-  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
-```
-
-Minimal install (rely on DBR-bundled deps):
-
-```python
-%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
-```
-
-> **Note:** The package targets PySpark 3.5.x and pandas 1.5.x (Databricks Runtime compatible).
-
-### Example
-
-```python
-from spandas import Spandas
-from pyspark import pandas as ps
-
-psdf = ps.read_csv("sample.csv")
-sdf = Spandas(psdf)
-
-sdf = sdf.dropna()
-sdf["new_col"] = sdf["val"].apply(lambda x: x**2)
-sdf.plot()
-```
-
-### Project Structure
-
-- `original/` - Backups of original pandas-on-Spark methods
-- `enhanced/` - Feature-specific enhancements (apply, selection, mathstats, etc.)
-- `spandas.py` - Main class that binds all enhanced functionality
-
-### テストの実行 / Running Tests
-
-プロジェクトのルートディレクトリで以下を実行することで、ユニットテストを実行できます。
-
-```bash
-pip install -r requirements.txt
-pytest
-```
-
----
-
-## 📄 License / ライセンス
-
-- English: This project is licensed under the **MIT License** – see the [LICENSE](./LICENSE) file for details.
-- 日本語: 本プロジェクトは **MITライセンス** のもとで公開されています。詳細は [LICENSE](./LICENSE) ファイルをご確認ください。

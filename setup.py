@@ -13,12 +13,9 @@ setup(
         'numpy>=1.22,<2.0',
         'pyarrow>=8,<13',
         'matplotlib>=3.7,<3.8',
-        'swifter>=1.4,<1.5',
-        'dask[dataframe]>=2024.2,<2024.7',
-        'dask-expr>=1.0,<1.1',
     ],
     extras_require={
-        'local': ['pyspark>=3.5,<3.6'],
+        'perf': ['tqdm>=4.33,<5'],
     },
     python_requires='>=3.10,<3.12',
 )
