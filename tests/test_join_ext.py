@@ -1,5 +1,9 @@
 import os
 import sys
+import pytest
+
+pytest.importorskip("pyspark")
+
 import pandas.testing as tm
 from pyspark import pandas as ps
 from pyspark.sql import SparkSession

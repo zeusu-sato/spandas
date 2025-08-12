@@ -19,6 +19,8 @@ setup(
     ],
     extras_require={
         'local': ['pyspark>=3.5,<3.6'],
+        'dev': ['pytest>=7.4'],
+        'dask_legacy': [],
     },
     python_requires='>=3.10,<3.12',
 )

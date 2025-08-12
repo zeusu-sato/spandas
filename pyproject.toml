@@ -24,6 +24,8 @@ dependencies = [
 
 [project.optional-dependencies]
 local = ["pyspark>=3.5,<3.6"]  # ローカル検証用。Databricksでは使わない
+dev = ["pytest>=7.4"]
+dask_legacy = []
 
 [tool.setuptools]
 packages = ["spandas"]
