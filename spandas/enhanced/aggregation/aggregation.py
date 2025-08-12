@@ -37,31 +37,47 @@ def agg(
         return self.agg(func, axis=axis, *args, **kwargs)
 
 
+class _PandasGroupBy:
+    """Simple wrapper around :class:`pandas.core.groupby.DataFrameGroupBy`.
+
+    The wrapper converts results back into pandas-on-Spark via ``ps.from_pandas``
+    so that chaining with ``Spandas`` continues to work.
+    """
+
+    def __init__(self, pdf_gb: pd.core.groupby.generic.DataFrameGroupBy):
+        self._gb = pdf_gb
+
+    def agg(self, func, *args, **kwargs):
+        result = self._gb.agg(func, *args, **kwargs)
+        return ps.from_pandas(result)
+
+    def apply(self, func, *args, **kwargs):
+        result = self._gb.apply(func, *args, **kwargs)
+        return ps.from_pandas(result)
+
+    def progress_apply(self, func, *args, **kwargs):
+        from tqdm.auto import tqdm
+
+        tqdm.pandas()
+        result = self._gb.progress_apply(func, *args, **kwargs)
+        return ps.from_pandas(result)
+
+
 def groupby(
     self: ps.DataFrame,
     by: Union[str, List[str]],
-    agg_func: Union[str, Callable, Dict[str, Union[str, List[str]]]] = "mean",
-    to_pandas: bool = False,
     *args,
-    **kwargs
-) -> ps.DataFrame:
-    """
-    Group DataFrame using a mapper or by a Series of columns.
+    **kwargs,
+) -> _PandasGroupBy:
+    """Group ``self`` by ``by`` returning a wrapper around pandas ``GroupBy``.
 
-    Args:
-        by (Union[str, List[str]]): Column(s) to group by.
-        agg_func (Union[str, Callable, Dict]): Aggregation method.
-        to_pandas (bool): Whether to use pandas for full functionality.
-
-    Returns:
-        ps.DataFrame: Grouped and aggregated result.
+    This implementation converts the DataFrame to pandas eagerly which is
+    suitable for small datasets and test environments.
     """
-    if to_pandas:
-        pdf = self.to_pandas()
-        result = pdf.groupby(by, *args, **kwargs).agg(agg_func)
-        return ps.from_pandas(result)
-    else:
-        return self.groupby(by, *args, **kwargs).agg(agg_func)
+
+    pdf = self.to_pandas()
+    gb = pdf.groupby(by, *args, **kwargs)
+    return _PandasGroupBy(gb)
 
 
 def describe(

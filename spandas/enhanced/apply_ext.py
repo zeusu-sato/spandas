@@ -1,7 +1,11 @@
 # spandas/enhanced/apply.py
 
 """
-spandas.enhanced.apply: Enhanced versions of apply, applymap, and map using swifter (optional).
+spandas.enhanced.apply: Enhanced versions of apply, applymap, and map.
+
+All functions provide a ``to_pandas`` option that converts the input to a pandas
+object for maximum compatibility on small datasets.  Progress-aware variants
+rely on :mod:`tqdm` when available.
 """
 
 import pandas as pd
@@ -13,6 +17,7 @@ __all__ = [
     "applymap",
     "map",
     "transform",
+    "progress_apply",
     "pipe",
     "where",
     "mask",
@@ -31,39 +36,22 @@ def apply(
 ) -> Union[ps.DataFrame, ps.Series]:
     """
     Apply a function along an axis of the DataFrame.
-    If `to_pandas=True`, convert to pandas and use swifter for acceleration.
+    If ``to_pandas=True`` the DataFrame is converted to pandas for execution.
 
     Args:
         func (Callable): Function to apply to each row or column.
         axis (int): Axis to apply the function on (0 or 1).
-        to_pandas (bool): Whether to use pandas and swifter for full compatibility.
+        to_pandas (bool): Whether to use pandas for full compatibility.
 
     Returns:
         Union[ps.DataFrame, ps.Series]: Result of applying the function.
     """
     if to_pandas:
         pd_df = self.to_pandas()
-        result = pd_df.swifter.apply(func, axis=axis, *args, **kwargs)
+        result = pd_df.apply(func, axis=axis, *args, **kwargs)
         return ps.from_pandas(result)
     else:
-        if axis == 1:
-            # Best-effort row-wise apply using Spark UDFs (approximation)
-            from pyspark.sql.functions import pandas_udf, struct
-            import inspect
-
-            def _wrap(func):
-                def inner(row):
-                    return func(row.asDict())
-                return inner
-
-            udf_func = pandas_udf(_wrap(func))
-            return self._internal.spark_frame.select(
-                *[self[col]._expr for col in self.columns],
-                udf_func(struct(*[self[col]._expr for col in self.columns])).alias("result")
-            ).to_pandas()["result"]
-        else:
-            # Column-wise best-effort
-            return self.map_partitions(lambda pdf: pdf.apply(func, axis=axis, *args, **kwargs))
+        return ps.DataFrame.apply(self, func, axis=axis, *args, **kwargs)
 
 def applymap(
     self: ps.DataFrame,
@@ -74,18 +62,18 @@ def applymap(
 ) -> ps.DataFrame:
     """
     Apply a function to a DataFrame elementwise.
-    If `to_pandas=True`, use swifter for pandas compatibility.
+    If ``to_pandas=True`` the DataFrame is converted to pandas for execution.
 
     Args:
         func (Callable): Elementwise function to apply.
-        to_pandas (bool): Whether to use pandas + swifter for full compatibility.
+        to_pandas (bool): Whether to use pandas for full compatibility.
 
     Returns:
         ps.DataFrame: Transformed DataFrame.
     """
     if to_pandas:
         pd_df = self.to_pandas()
-        result = pd_df.swifter.applymap(func, *args, **kwargs)
+        result = pd_df.applymap(func, *args, **kwargs)
         return ps.from_pandas(result)
     else:
         for col in self.columns:
@@ -111,10 +99,10 @@ def map(
     """
     if to_pandas:
         pd_series = self.to_pandas()
-        result = pd_series.swifter.map(func, *args, **kwargs)
+        result = pd_series.map(func, *args, **kwargs)
         return ps.from_pandas(result)
     else:
-        return self.map(func, *args, **kwargs)
+        return ps.Series.map(self, func, *args, **kwargs)
 
 def transform(
     self: ps.DataFrame,
@@ -128,15 +116,35 @@ def transform(
 
     Args:
         func (Callable): Function to use for transforming the data.
-        to_pandas (bool): Use pandas backend with swifter if True.
+        to_pandas (bool): Use pandas backend if True.
 
     Returns:
         ps.DataFrame: Transformed DataFrame.
     """
     if to_pandas:
-        return ps.from_pandas(self.to_pandas().swifter.transform(func, *args, **kwargs))
+        return ps.from_pandas(self.to_pandas().transform(func, *args, **kwargs))
     else:
-        return self.map_partitions(lambda pdf: pdf.transform(func, *args, **kwargs))
+        return ps.DataFrame.transform(self, func, *args, **kwargs)
+
+
+def progress_apply(
+    self: ps.DataFrame,
+    func: Callable,
+    axis: int = 1,
+    *args,
+    **kwargs,
+) -> Union[ps.DataFrame, ps.Series]:
+    """Apply a function with a progress bar using :mod:`tqdm`.
+
+    This converts the DataFrame to pandas, enables ``tqdm``'s pandas
+    integration, and executes ``progress_apply``.
+    """
+
+    from tqdm.auto import tqdm
+
+    tqdm.pandas()
+    result = self.to_pandas().progress_apply(func, axis=axis, *args, **kwargs)
+    return ps.from_pandas(result)
 
 def pipe(
     self: ps.DataFrame,

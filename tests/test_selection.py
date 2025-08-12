@@ -1,8 +1,10 @@
 import os
 import sys
 import pandas.testing as tm
-from pyspark import pandas as ps
-from pyspark.sql import SparkSession
+import pytest
+
+ps = pytest.importorskip("pyspark.pandas")
+SparkSession = pytest.importorskip("pyspark.sql").SparkSession
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from spandas.enhanced.selection import iloc

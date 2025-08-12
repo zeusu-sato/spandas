@@ -8,7 +8,6 @@ Supports both best-effort Spark-based logic and fallback to to_pandas for full c
 from typing import Union, Any, Tuple, Optional
 import pandas as pd
 from spandas.compat import ps
-import pyspark.sql.functions as F
 
 __all__ = ["loc", "iloc", "at", "iat", "xs"]
 
@@ -68,6 +67,9 @@ def iloc(
             selected_cols = cols[col_idx]
     else:
         selected_cols = cols
+
+    import pyspark.sql.functions as F
+
     indexed = self.withColumn("__row_id", F.monotonically_increasing_id())
     if isinstance(row_idx, int):
         filtered = indexed.filter(F.col("__row_id") == row_idx)
@@ -97,6 +99,8 @@ def at(self: ps.DataFrame, row_idx: int, col_name: str, to_pandas: bool = False)
         return self.to_pandas().at[row_idx, col_name]
     
     # Best-effort using monotonic ID
+    import pyspark.sql.functions as F
+
     df = self.withColumn("__row_id", F.monotonically_increasing_id())
     val_df = df.filter(F.col("__row_id") == row_idx).select(col_name).limit(1)
     result = val_df.toPandas()
@@ -147,7 +151,9 @@ def xs(
     """
     if to_pandas:
         return self.to_pandas().xs(key, axis=axis, level=level, drop_level=drop_level)
-    
+
+    import pyspark.sql.functions as F
+
     if axis == 0:
         return self.filter(F.col(self.columns[0]) == key)
     elif axis == 1:

@@ -1,12 +1,11 @@
 ## 🇯🇵 Spandas - Spark上でpandasのように使える拡張DataFrame
 
-**Spandas** は、PySpark の pandas API (`from pyspark import pandas as ps`) をベースに、pandasのような使いやすさと、swifterによる並列処理、matplotlib対応の可視化などを統合し、
+**Spandas** は、PySpark の pandas API (`from pyspark import pandas as ps`) をベースに、pandasのような使いやすさと、matplotlib対応の可視化などを統合し、
 Spark上でのDataFrame操作を強化するライブラリです。
 
 ### 特徴
 
 - pandasのような `.apply()`, `.agg()`, `.groupby()` などの操作をSpark上で再現
-- `swifter` による自動並列化
 - `.plot()`, `.hist()`, `.boxplot()` による可視化（pandas経由）
 - `to_pandas=False` によるSparkネイティブなベストエフォート処理
 - `.loc`, `.iloc`, `.T`, `.pivot`, `.melt` など、使い慣れたAPIをサポート
@@ -55,12 +54,11 @@ sdf.plot()
 ## 🇺🇸 Spandas - Enhanced DataFrame API on Spark with Pandas-like Syntax
 
 **Spandas** extends PySpark's pandas API (`from pyspark import pandas as ps`) to provide a more pandas-like experience,
-including easy-to-use methods, parallelism with swifter, and plotting support via matplotlib.
+including easy-to-use methods and plotting support via matplotlib.
 
 ### Features
 
 - Familiar pandas-style API on Spark: `.apply()`, `.agg()`, `.groupby()`, etc.
-- Automatic parallelization using `swifter`
 - Plotting via `.plot()`, `.hist()`, `.boxplot()` (backed by pandas/matplotlib)
 - Best-effort native Spark execution with `to_pandas=False`
 - Support for `.loc`, `.iloc`, `.T`, `.pivot`, `.melt`, and more
@@ -109,7 +107,7 @@ sdf.plot()
 プロジェクトのルートディレクトリで以下を実行することで、ユニットテストを実行できます。
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 pytest
 ```
 

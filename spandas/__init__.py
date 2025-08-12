@@ -5,15 +5,11 @@ Spandas Package Initialization
 
 This module initializes the spandas package, setting up all core imports and exposing
 the enhanced Spandas class with extended pandas-like functionality on top of Spark.
-"""
 
-try:
-    import pyspark  # noqa: F401
-except Exception as e:  # pragma: no cover - simple import guard
-    raise RuntimeError(
-        "pyspark が見つかりません。Databricks では同梱されています。"
-        "ローカルで使う場合は `pip install pyspark` か `pip install spandas[local]` を実行してください。"
-    ) from e
+To remain lightweight for environments without Spark, no ``pyspark`` imports are
+performed at module import time.  Functions that require Spark will attempt to
+import ``pyspark`` lazily and raise a clear error if it is unavailable.
+"""
 
 from importlib.metadata import PackageNotFoundError, version
 

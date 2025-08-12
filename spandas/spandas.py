@@ -38,7 +38,8 @@ from spandas.enhanced import (
 class Spandas(ps.DataFrame):
     """
     Spandas: An enhanced DataFrame class combining pandas-like ease of use
-    with Spark's scalability, powered by pandas-on-Spark and swifter.
+    with Spark's scalability.  Heavy computations can fall back to pandas for
+    small datasets when requested.
     """
 
     # --------- Original Methods ---------
@@ -64,6 +65,7 @@ class Spandas(ps.DataFrame):
     apply                  = apply_ext.apply
     applymap               = apply_ext.applymap
     transform              = apply_ext.transform
+    progress_apply         = apply_ext.progress_apply
     pipe                   = apply_ext.pipe
     where                  = apply_ext.where
     mask                   = apply_ext.mask

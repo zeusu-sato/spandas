@@ -8,7 +8,6 @@ with optional pandas fallback for full fidelity.
 from typing import Union, Optional
 from spandas.compat import ps
 import pandas as pd
-import pyspark.sql.functions as F
 
 __all__ = ["head", "tail", "sample"]
 
@@ -45,6 +44,8 @@ def tail(self: ps.DataFrame, n: int = 5, to_pandas: bool = False) -> Union[ps.Da
         return self.to_pandas().tail(n)
     count = self.count()
     start = max(0, count - n)
+    import pyspark.sql.functions as F
+
     df = self.withColumn("__row_id", F.monotonically_increasing_id())
     result = df.filter(F.col("__row_id") >= start)
     return result.drop("__row_id")
