@@ -1,6 +1,7 @@
 pandas<2.0
-dask==2024.4.2  # pin compatible with dask-expr 1.0.14
-dask-expr==1.0.14
-pyarrow<13
+numpy<2.0
 matplotlib<3.8
-swifter==1.4.0
+pyarrow<13
+swifter<1.5
+dask-expr<1.0
+dask>=2024.2,<2024.7

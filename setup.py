@@ -14,11 +14,16 @@ setup(
         'pyarrow>=8,<13',
         'matplotlib>=3.7,<3.8',
         'swifter>=1.4,<1.5',
-        'dask[dataframe]>=2024.2,<2024.7',
-        'dask-expr>=1.0,<1.1',
     ],
     extras_require={
-        'local': ['pyspark>=3.5,<3.6'],
+        'dask_legacy': [
+            'dask[dataframe]>=2024.2,<2024.7',
+            'dask-expr<1.0',
+            'swifter>=1.4,<1.5',
+        ],
+        'local': [
+            'pytest>=7.4',
+        ],
     },
     python_requires='>=3.10,<3.12',
 )

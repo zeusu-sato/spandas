@@ -18,12 +18,17 @@ dependencies = [
   "pyarrow>=8,<13",
   "matplotlib>=3.7,<3.8",
   "swifter>=1.4,<1.5",
-  "dask[dataframe]>=2024.2,<2024.7",
-  "dask-expr>=1.0,<1.1",
 ]
 
 [project.optional-dependencies]
-local = ["pyspark>=3.5,<3.6"]  # ローカル検証用。Databricksでは使わない
+dask_legacy = [
+  "dask[dataframe]>=2024.2,<2024.7",
+  "dask-expr<1.0",
+  "swifter>=1.4,<1.5",
+]
+local = [
+  "pytest>=7.4",
+]
 
 [tool.setuptools]
-packages = ["spandas"]
+packages = ["spandas", "spandas.enhanced", "spandas.original"]
