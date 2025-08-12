@@ -7,7 +7,7 @@ name = "spandas"
 version = "0.1.1"
 description = "Spark + pandas hybrid utilities"
 readme = "README.md"
-requires-python = ">=3.10,<3.12"
+requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Zeusu Sato" }]
 urls = { "Homepage" = "https://github.com/zeusu-sato/spandas" }
@@ -18,12 +18,11 @@ dependencies = [
   "pyarrow>=8,<13",
   "matplotlib>=3.7,<3.8",
   "swifter>=1.4,<1.5",
-  "dask[dataframe]>=2024.2,<2024.7",
-  "dask-expr>=1.0,<1.1",
 ]
 
 [project.optional-dependencies]
-local = ["pyspark>=3.5,<3.6"]  # ローカル検証用。Databricksでは使わない
+local = ["pytest>=7.4"]
+dask_legacy = ["dask[dataframe]>=2023.9.0,<2024.0"]
 
 [tool.setuptools]
 packages = ["spandas"]
