@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='spandas',
-    version='0.1.1',
+    version='0.1.2',
     description='Spark + pandas hybrid utilities',
     author='Zeusu Sato',
     author_email='zeusu.sato@dorodango.biz',
@@ -14,8 +14,8 @@ setup(
         'pyarrow>=8,<13',
         'matplotlib>=3.7,<3.8',
         'swifter>=1.4,<1.5',
-        'dask[dataframe]>=2024.2,<2024.7',
-        'dask-expr>=1.0,<1.1',
+        'dask[dataframe]>=2024.2.0,<2024.7',
+        'dask-expr<1.0',
     ],
     extras_require={
         'local': ['pyspark>=3.5,<3.6'],

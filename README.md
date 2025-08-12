@@ -17,14 +17,14 @@ Databricks での推奨手順:
 
 ```python
 %pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
-  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+"spandas @ git+https://github.com/zeusu-sato/spandas.git@v0.1.2"
 dbutils.library.restartPython()
 ```
 
 トラブル時の最小インストール:
 
 ```python
-%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git@v0.1.2"
 dbutils.library.restartPython()
 ```
 
@@ -71,14 +71,14 @@ Recommended installation on Databricks:
 
 ```python
 %pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
-  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+"spandas @ git+https://github.com/zeusu-sato/spandas.git@v0.1.2"
 dbutils.library.restartPython()
 ```
 
 Minimal install (rely on DBR-bundled deps):
 
 ```python
-%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
+%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git@v0.1.2"
 dbutils.library.restartPython()
 ```
 
