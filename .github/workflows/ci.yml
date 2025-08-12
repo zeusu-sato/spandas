@@ -17,3 +17,5 @@ jobs:
           assert iu.find_spec("spandas")
           print("OK", spandas.__version__, pd.__version__)
           PY
+      - name: Run tests
+        run: pytest -q

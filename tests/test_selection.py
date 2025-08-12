@@ -1,13 +1,21 @@
 import os
 import sys
-import pandas.testing as tm
-from pyspark import pandas as ps
-from pyspark.sql import SparkSession
+import pytest
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from spandas.enhanced.selection import iloc
+run_spark = os.getenv("SPANDAS_RUN_SPARK_TESTS") == "1"
+pytestmark = [
+    pytest.mark.spark,
+    pytest.mark.skipif(not run_spark, reason="spark tests disabled in CI by default"),
+]
 
-SparkSession.builder.config("spark.sql.ansi.enabled", "false").getOrCreate()
+if run_spark:
+    import pandas.testing as tm
+    from pyspark import pandas as ps
+    from pyspark.sql import SparkSession
+
+    SparkSession.builder.config("spark.sql.ansi.enabled", "false").getOrCreate()
+    sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+    from spandas.enhanced.selection import iloc
 
 
 def test_iloc_with_integer_col_idx_selects_correct_column():
