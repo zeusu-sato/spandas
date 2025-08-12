@@ -38,7 +38,7 @@ from spandas.enhanced import (
 class Spandas(ps.DataFrame):
     """
     Spandas: An enhanced DataFrame class combining pandas-like ease of use
-    with Spark's scalability, powered by pandas-on-Spark and swifter.
+    with Spark's scalability, powered by pandas-on-Spark.
     """
 
     # --------- Original Methods ---------

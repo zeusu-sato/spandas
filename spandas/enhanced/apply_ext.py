@@ -8,6 +8,12 @@ import pandas as pd
 from spandas.compat import ps
 from typing import Callable, Any, Union, Optional
 
+try:  # Optional swifter acceleration
+    import swifter  # noqa: F401
+    _HAVE_SWIFTER = True
+except Exception:  # pragma: no cover - swifter is optional
+    _HAVE_SWIFTER = False
+
 __all__ = [
     "apply",
     "applymap",
@@ -43,7 +49,10 @@ def apply(
     """
     if to_pandas:
         pd_df = self.to_pandas()
-        result = pd_df.swifter.apply(func, axis=axis, *args, **kwargs)
+        if _HAVE_SWIFTER:
+            result = pd_df.swifter.apply(func, axis=axis, *args, **kwargs)
+        else:  # pragma: no cover - swifter absent fallback
+            result = pd_df.apply(func, axis=axis, *args, **kwargs)
         return ps.from_pandas(result)
     else:
         if axis == 1:
@@ -85,7 +94,10 @@ def applymap(
     """
     if to_pandas:
         pd_df = self.to_pandas()
-        result = pd_df.swifter.applymap(func, *args, **kwargs)
+        if _HAVE_SWIFTER:
+            result = pd_df.swifter.applymap(func, *args, **kwargs)
+        else:  # pragma: no cover - swifter absent fallback
+            result = pd_df.applymap(func, *args, **kwargs)
         return ps.from_pandas(result)
     else:
         for col in self.columns:
@@ -111,7 +123,10 @@ def map(
     """
     if to_pandas:
         pd_series = self.to_pandas()
-        result = pd_series.swifter.map(func, *args, **kwargs)
+        if _HAVE_SWIFTER:
+            result = pd_series.swifter.map(func, *args, **kwargs)
+        else:  # pragma: no cover - swifter absent fallback
+            result = pd_series.map(func, *args, **kwargs)
         return ps.from_pandas(result)
     else:
         return self.map(func, *args, **kwargs)
@@ -134,7 +149,12 @@ def transform(
         ps.DataFrame: Transformed DataFrame.
     """
     if to_pandas:
-        return ps.from_pandas(self.to_pandas().swifter.transform(func, *args, **kwargs))
+        pd_df = self.to_pandas()
+        if _HAVE_SWIFTER:
+            result = pd_df.swifter.transform(func, *args, **kwargs)
+        else:  # pragma: no cover - swifter absent fallback
+            result = pd_df.transform(func, *args, **kwargs)
+        return ps.from_pandas(result)
     else:
         return self.map_partitions(lambda pdf: pdf.transform(func, *args, **kwargs))
 

@@ -1,34 +1,28 @@
-## 🇯🇵 Spandas - Spark上でpandasのように使える拡張DataFrame
+## 🇯🇵 Spandas - Databricks 向けの軽量拡張
 
-**Spandas** は、PySpark の pandas API (`from pyspark import pandas as ps`) をベースに、pandasのような使いやすさと、swifterによる並列処理、matplotlib対応の可視化などを統合し、
-Spark上でのDataFrame操作を強化するライブラリです。
+**Spandas** は、PySpark の pandas API (`from pyspark import pandas as ps`) をベースに、pandas のような使いやすさで Spark 上の DataFrame 操作を強化する、Databricks ランタイム向けの軽量ライブラリです。
 
 ### 特徴
 
 - pandasのような `.apply()`, `.agg()`, `.groupby()` などの操作をSpark上で再現
-- `swifter` による自動並列化
 - `.plot()`, `.hist()`, `.boxplot()` による可視化（pandas経由）
 - `to_pandas=False` によるSparkネイティブなベストエフォート処理
 - `.loc`, `.iloc`, `.T`, `.pivot`, `.melt` など、使い慣れたAPIをサポート
 
 ### インストール
 
-Databricks での推奨手順:
+Databricks では次のコマンドだけで利用できます:
 
-```python
-%pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
-  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
+```bash
+pip install spandas
 ```
 
-トラブル時の最小インストール:
+オプション機能:
 
-```python
-%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
-```
+- **Dask 連携:** `pip install "spandas[dask_legacy]"`
+- **ローカル Spark 検証:** `pip install "spandas[spark]"`
 
-> **注意:** 本ライブラリは PySpark 3.5 系および pandas 1.5 系に対応しています。
+> **注意:** 本ライブラリは PySpark 3.5 系および pandas 1.x 系に対応しています。
 
 ### 使用例
 
@@ -52,37 +46,31 @@ sdf.plot()
 
 ---
 
-## 🇺🇸 Spandas - Enhanced DataFrame API on Spark with Pandas-like Syntax
+## 🇺🇸 Spandas - Lightweight Extensions for Databricks
 
-**Spandas** extends PySpark's pandas API (`from pyspark import pandas as ps`) to provide a more pandas-like experience,
-including easy-to-use methods, parallelism with swifter, and plotting support via matplotlib.
+**Spandas** extends PySpark's pandas API (`from pyspark import pandas as ps`) to provide a pandas-like experience on Spark.
 
 ### Features
 
 - Familiar pandas-style API on Spark: `.apply()`, `.agg()`, `.groupby()`, etc.
-- Automatic parallelization using `swifter`
 - Plotting via `.plot()`, `.hist()`, `.boxplot()` (backed by pandas/matplotlib)
 - Best-effort native Spark execution with `to_pandas=False`
 - Support for `.loc`, `.iloc`, `.T`, `.pivot`, `.melt`, and more
 
 ### Installation
 
-Recommended installation on Databricks:
+On Databricks just run:
 
-```python
-%pip install -U -c https://raw.githubusercontent.com/zeusu-sato/spandas/main/constraints.txt \
-  "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
+```bash
+pip install spandas
 ```
 
-Minimal install (rely on DBR-bundled deps):
+Optional extras:
 
-```python
-%pip install -U --no-deps "spandas @ git+https://github.com/zeusu-sato/spandas.git"
-dbutils.library.restartPython()
-```
+- **Dask integration:** `pip install "spandas[dask_legacy]"`
+- **Local Spark testing:** `pip install "spandas[spark]"`
 
-> **Note:** The package targets PySpark 3.5.x and pandas 1.5.x (Databricks Runtime compatible).
+> **Note:** The package targets PySpark 3.5.x and pandas 1.x (Databricks Runtime compatible).
 
 ### Example
 
@@ -103,15 +91,6 @@ sdf.plot()
 - `original/` - Backups of original pandas-on-Spark methods
 - `enhanced/` - Feature-specific enhancements (apply, selection, mathstats, etc.)
 - `spandas.py` - Main class that binds all enhanced functionality
-
-### テストの実行 / Running Tests
-
-プロジェクトのルートディレクトリで以下を実行することで、ユニットテストを実行できます。
-
-```bash
-pip install -r requirements.txt
-pytest
-```
 
 ---
 

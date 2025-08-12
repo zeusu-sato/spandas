@@ -1,8 +1,19 @@
 import os
 import sys
 import pandas.testing as tm
-from pyspark import pandas as ps
-from pyspark.sql import SparkSession
+import pytest
+
+spark_enabled = os.getenv("SPANDAS_ENABLE_SPARK_TESTS") == "1"
+pytestmark = [
+    pytest.mark.spark,
+    pytest.mark.skipif(not spark_enabled, reason="spark tests disabled by default"),
+]
+
+try:
+    from pyspark import pandas as ps
+    from pyspark.sql import SparkSession
+except Exception:
+    pytest.skip("pyspark not available", allow_module_level=True)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from spandas.enhanced.selection import iloc

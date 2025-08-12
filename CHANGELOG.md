@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+- Minimize core dependencies for Databricks runtime (pandas/numpy/pyarrow/matplotlib only)
+- Move `pyspark` and `dask` to optional extras `[spark]` and `[dask_legacy]`
+- Simplify CI without constraints; add optional jobs for extras
+
 ## 0.1.1
 
 - Drop `pyspark` from default dependencies; provide `spandas[local]` extra for local verification.
