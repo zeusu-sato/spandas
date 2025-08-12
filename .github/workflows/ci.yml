@@ -9,11 +9,6 @@ jobs:
         with:
           python-version: "3.10"
       - run: python -m pip install -U pip
-      - run: pip install -c constraints.txt .[local]
-      - run: pip check
-      - run: |
-          python - <<'PY'
-          import spandas, pandas as pd, importlib.util as iu
-          assert iu.find_spec("spandas")
-          print("OK", spandas.__version__, pd.__version__)
-          PY
+      - run: pip install -U ".[dev]" .
+      - run: pip install -U -c constraints.txt ".[dask_legacy]"
+      - run: pytest -q
